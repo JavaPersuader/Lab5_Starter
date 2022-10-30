@@ -5,7 +5,7 @@ var synth = window.speechSynthesis;
 var voiceSelect = document.querySelector('select');
 var voices = [];
 var SmileImage = document.querySelector('img');
-var textArea = document.querySelector('textarea');
+var textInput = document.querySelector("#text-to-speak");
 function init() {
   // TODOA
   document.querySelector('button').addEventListener('click', SpeakText);
@@ -34,9 +34,9 @@ if (speechSynthesis.onvoiceschanged !== undefined) {
 }
 
 function SpeakText() {
-  var utterThis = new SpeechSynthesisUtterance(textArea.value);
+  var utterThis = new SpeechSynthesisUtterance(textInput.value);
   var selectedOption = voiceSelect.selectedOptions[0].getAttribute('data-name');
-  SmileImage.src = "./assets/images/smiling-open.png";
+
   for (let i = 0; i < voices.length; i++) {
     if (voices[i].name === selectedOption) {
       utterThis.voice = voices[i];
@@ -44,6 +44,8 @@ function SpeakText() {
   }
 
   synth.speak(utterThis);
+
+  SmileImage.src = "./assets/images/smiling-open.png";
 
   utterThis.addEventListener('end', (event) => {
     SmileImage.src = "./assets/images/smiling.png";
